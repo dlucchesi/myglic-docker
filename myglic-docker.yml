@@ -1,0 +1,43 @@
+version: 'v2.16.0' # docker-compose
+
+services:
+  web:
+    container_name: web
+    image: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./myglicv/:/usr/share/nginx/html:ro
+    depends_on:
+      - app
+
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+    container_name: app
+    ports:
+      - 8180:8180
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db_myglic
+      - SPRING_DATASOURCE_USERNAME=usr_myglic
+      - SPRING_DATASOURCE_PASSWORD=654321
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    volumes:
+      - pgdata:/home/dlucchesi/data
+    ports: 
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=usr_myglic
+      - POSTGRES_PASSWORD=654321
+      - POSTGRES_DB=db_muglic
+
+volumes:
+  pgdata:
+    driver: local
