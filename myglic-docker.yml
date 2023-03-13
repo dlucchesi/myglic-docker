@@ -40,6 +40,7 @@ services:
     container_name: db
     volumes:
       - /home/dlucchesi/data:/var/lib/postgresql/data:rw
+      # script to init load -> create databases
       - /home/dlucchesi/projects/docker/myglic-docker/db/create_postgresql.sql:/docker-entrypoint-initdb.d/create_tables.sql:ro
     ports: 
       - 5432:5432
