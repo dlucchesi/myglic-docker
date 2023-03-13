@@ -1,20 +1,26 @@
-version: 'v2.16.0' # docker-compose
+version: '3.8' # docker-compose
 
 services:
-  web:
-    container_name: web
-    image: nginx
-    ports:
-      - 8080:80
-    volumes:
-      - ./myglicv/:/usr/share/nginx/html:ro
-    depends_on:
-      - app
+  # web:
+  #   container_name: web
+  #   image: nginx
+  #   ports:
+  #     - 8000:80
+  #   volumes:
+  #     - ./myglicv/:/usr/share/nginx/html:ro
+  #   depends_on:
+  #     - app
+  #   environment:
+  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db_myglic
+  #     - SPRING_DATASOURCE_USERNAME=usr_myglic
+  #     - SPRING_DATASOURCE_PASSWORD=654321
+  #     - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   app:
     image: 'docker-spring-boot-postgres:latest'
     build:
       context: .
+      dockerfile: myglicapp.docker
     container_name: app
     ports:
       - 8180:8180
@@ -25,19 +31,22 @@ services:
       - SPRING_DATASOURCE_USERNAME=usr_myglic
       - SPRING_DATASOURCE_PASSWORD=654321
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_PROFILES_ACTIVE=dev
 
   db:
-    image: 'postgres:13.1-alpine'
+    image: 'postgres:14.1-alpine'
+    # restart: always
+    restart: unless-stopped
     container_name: db
     volumes:
-      - pgdata:/home/dlucchesi/data
+      - /home/dlucchesi/data:/var/lib/postgresql/data:rw
+      - /home/dlucchesi/projects/docker/myglic-docker/db/create_postgresql.sql:/docker-entrypoint-initdb.d/create_tables.sql:ro
     ports: 
       - 5432:5432
     environment:
       - POSTGRES_USER=usr_myglic
-      - POSTGRES_PASSWORD=654321
-      - POSTGRES_DB=db_muglic
+      - POSTGRES_PASSWORD=654321    
 
 volumes:
-  pgdata:
+  db:
     driver: local

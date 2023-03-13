@@ -1,0 +1,5 @@
+FROM openjdk:17-jdk-slim
+EXPOSE 8080
+ADD app/myglic.war myglic.war
+RUN ["echo","$MYGLIC_DB_URL"]
+ENTRYPOINT ["java","-Dspring.profiles.active=dev","-jar","myglic.war"]
