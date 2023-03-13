@@ -8,7 +8,7 @@ This still a work in progress. I hope you enjoy it.
 ### Features
 - Postgresql node - for persistence
 - SpringBoot node - for application backend
-- Nginx node - for application backend
+- Nginx node - for application frontend and reverse proxy
 
 ### Technologies
 - Docker
@@ -19,15 +19,17 @@ This still a work in progress. I hope you enjoy it.
 - Docker Compose
 - Myglic View - dist (version to distribute)
 - Myglic - war (webpackage version) 
+- Myglic project package (backend) in `app` folder (need to create in root project folder)
+- Myglicv project package (frontend) in `web` folder (need to createin root project folder)
 
 
 ### How to run this project?
-**Important**: this project alone doesn't do anything (see the nex session)
+**Important**: this project alone doesn't do anything (see the next session)
 - Clone this repository
 - Access project folder
 - Run command: `docker-compose -f myglic-docker.yml up -d`
 - Verify if 3 nodes start (web, app, db)
-- Access http:localhost:8080
+- Access http:localhost:8000
 
 **To stop docker nodes**
 - Run command: `docker-compose -f myglic-docker.yml down`
