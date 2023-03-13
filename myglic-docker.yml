@@ -1,20 +1,16 @@
 version: '3.8' # docker-compose
 
 services:
-  # web:
-  #   container_name: web
-  #   image: nginx
-  #   ports:
-  #     - 8000:80
-  #   volumes:
-  #     - ./myglicv/:/usr/share/nginx/html:ro
-  #   depends_on:
-  #     - app
-  #   environment:
-  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db_myglic
-  #     - SPRING_DATASOURCE_USERNAME=usr_myglic
-  #     - SPRING_DATASOURCE_PASSWORD=654321
-  #     - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  web:
+    container_name: web
+    image: nginx
+    ports:
+      - 8000:80
+    volumes:
+      - /home/dlucchesi/projects/docker/myglic-docker/web/:/usr/share/nginx/html/:ro
+    depends_on:
+      - app
+
 
   app:
     image: 'docker-spring-boot-postgres:latest'
